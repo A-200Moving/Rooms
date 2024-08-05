@@ -2,6 +2,8 @@
 local Part = Instance.new("Part", workspace)
 Part.Name = "EntityWalkPart"
 Part.Anchored = true
+Part.Transparency = 1
+Part.CanCollide = false
 Part.CFrame = workspace.start.exit.CFrame
 
 workspace.ChildAdded:Connect(function(room)
