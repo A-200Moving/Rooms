@@ -119,4 +119,5 @@ end
 end
 end
 
+Main:FindFirstChildOfClass("LocalScript"):Destroy()
 Model:Destroy()
