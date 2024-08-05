@@ -59,11 +59,13 @@ local function Kill_fake_script()
   local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
   local Distance = (HumanoidRootPart.Position - Main.Position).Magnitude
 
-  if Model and Humanoid.Health > 0 and Distance <= 20 and Character.safe.Value == 0 then
-     Humanoid:TakeDamage(125)
-  else
-     
-  end
+   if Model then
+      if Distance <= 20 then
+	 if Humanoid.Health > 0 and Player.PlayerGui.hiding.Heartbeat.Playing == false then
+		Humanoid:TakeDamage(20)
+	 end
+      end
+   end
 end
 end
 coroutine.wrap(Kill_fake_script)()
