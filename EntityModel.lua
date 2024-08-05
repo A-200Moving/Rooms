@@ -41,7 +41,7 @@ Sound.Looped = true
 Sound.PlaybackSpeed = 2
 Sound.Volume = 5
 Sound.EmitterSize = 25
-Sound.SoundId = "rbxassetid://"
+Sound.SoundId = "rbxassetid://4903742660"
 Sound:Play()
 local DistortionSoundEffect = Instance.new("DistortionSoundEffect", Sound)
 DistortionSoundEffect.Level = 0.25
