@@ -27,7 +27,7 @@ workspace.ChildAdded:Connect(function(v)
 	v.Name == "reference_room" or
 	v.Name == "projector room" or
 	v.Name == "box room" then
-	wait(0.1)
+	wait()
 
 	RoomDoor.CFrame = v.door.CFrame
 	
