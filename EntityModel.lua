@@ -1,9 +1,47 @@
-local Model = Instance.new("Model", workspace)
+
+local TS = game:GetService("TweenService")
+
+local Speed = 100 -- 1 rps = 50 studs
+
+-- TweenPart
+if not workspace:FindFirstChild("CFrameDoor") then
+    local RoomDoor = Instance.new("Part")
+RoomDoor.Transparency = 1
+RoomDoor.Anchored = true
+RoomDoor.CanCollide = false
+RoomDoor.CFrame = workspace.start.door.CFrame
+RoomDoor.Name = "CFrameDoor"
+RoomDoor.Parent = workspace
+
+workspace.ChildAdded:Connect(function(v)
+	if v.Name == "box room" or
+    v.Name == "room2" or
+	v.Name == "room1" or
+	v.Name == "room3" or
+	v.Name == "room4" or
+    v.Name == "room5" or
+	v.Name == "tall room" or
+	v.Name == "break room" or
+	v.Name == "locker room" or
+    v.Name == "Storage" or
+	v.Name == "reference_room" or
+	v.Name == "projector room" or
+	v.Name == "box room" then
+	wait(0.1)
+
+	RoomDoor.CFrame = v.door.CFrame
+	
+	end
+end)
+end
+
+-- Entity Model
+local Model = Instance.new("Model",workspace)
 Model.Name = "A-60"
 local Main = Instance.new("Part", Model)
 Main.Name = "Main"
 Main.Anchored = true
-Main.CFrame = SpawnPart.CFrame
+Main.CFrame = workspace.start.exit.CFrame
 Main.Size = Vector3.new(5,5,5)
 Main.Transparency = 1
 local BillboardGui = Instance.new("BillboardGui",Main)
@@ -47,4 +85,17 @@ local DistortionSoundEffect = Instance.new("DistortionSoundEffect", Sound)
 DistortionSoundEffect.Level = 0.25
 local PitchShiftSoundEffect = Instance.new("PitchShiftSoundEffect",Sound)
 PitchShiftSoundEffect.Octave = 0.5
+
+while wait() do
+   if workspace:FindFirstChild("CFrameDoor") then
+   local Distance = (Main.Position - workspace.CFrameDoor.Position).Magnitude
+local timespeed = Distance / Speed
+local Tween = TS:Create(Main, TweenInfo.new(timespeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Position = workspace.CFrameDoor.Position})
+Tween:Play()
+if Distance <= 1 then
+    break
 end
+end
+end
+
+Model:Destroy()
