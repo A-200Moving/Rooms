@@ -1,7 +1,7 @@
 
 local TS = game:GetService("TweenService")
 
-local Speed = 100 -- 1 rps = 50 studs
+local Speed = 500 -- 1 rps = 50 studs
 
 -- TweenPart
 if not workspace:FindFirstChild("CFrameDoor") then
@@ -49,6 +49,23 @@ BillboardGui.Size = UDim2.new(8,0,8,0)
 local Face = Instance.new("ImageLabel", BillboardGui)
 Face.Size = UDim2.new(1,0,1,0)
 Face.BackgroundTransparency = 1
+
+local function Kill_fake_script()
+   local script = Instance.new("LocalScript", Main)
+   while wait() do
+  local Player = game.Players.LocalPlayer
+  local Character = Player.Character
+  local Humanoid = Character:WaitForChild("Humanoid")
+  local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+  local Distance = (HumanoidRootPart.Position - Main.Position).Magnitude
+
+  if Humanoid.Health > 0 and Distance <= 20 and Character.safe.Value < 1 then
+     Humanoid:TakeDamage(125)
+  end
+end
+end
+coroutine.wrap(Kill_fake_script)()
+
 local function FACE_fake_script()
   local script = Instance.new('LocalScript', Face)
 
