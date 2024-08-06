@@ -52,7 +52,7 @@ Face.BackgroundTransparency = 1
 
 local function Kill_fake_script()
    local script = Instance.new("LocalScript", Main)
-   while wait() do
+   while Model ~= nil do
   local Player = game.Players.LocalPlayer
   local Character = Player.Character
   local Humanoid = Character:WaitForChild("Humanoid")
@@ -66,6 +66,7 @@ local function Kill_fake_script()
 	 end
       end
    end
+   task.wait()
 end
 end
 coroutine.wrap(Kill_fake_script)()
