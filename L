@@ -1,0 +1,109 @@
+-- Services
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+-- Variables
+local entity = script.Parent
+local waypoints = {} -- List of waypoints
+local firstRoomPosition = Vector3.new(0, 0, 0) -- Position of the first room
+local speed = 1 -- Speed of the entity (adjust as needed)
+local tweenInfo = TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+local player = Players.LocalPlayer -- Replace with the actual player reference
+local currentWaypointIndex = 1
+local isChasingPlayer = false
+
+-- Function to determine if the player is hiding
+local function isPlayerHiding(player)
+    local character = player.Character
+    if character then
+        if character:FindFirstChild("Hidden") then
+           return true
+        end
+    end
+    return false
+end
+
+-- Function to create a tween for movement
+local function createTween(targetPosition)
+    local tweenGoal = {Position = targetPosition}
+    return TweenService:Create(entity.PrimaryPart, tweenInfo, tweenGoal)
+end
+
+-- Function to move the entity to the next waypoint
+local function moveToNextWaypoint()
+    if currentWaypointIndex <= #waypoints then
+        local targetWaypoint = waypoints[currentWaypointIndex].Position
+        local tween = createTween(targetWaypoint)
+        tween:Play()
+
+        tween.Completed:Connect(function(status)
+            if status == Enum.TweenStatus.Completed then
+                currentWaypointIndex = currentWaypointIndex + 1
+                moveToNextWaypoint()
+            end
+        end)
+    else
+        -- After reaching the last waypoint, move to the first room
+        local tween = createTween(firstRoomPosition)
+        tween:Play()
+
+        tween.Completed:Connect(function(status)
+            if status == Enum.TweenStatus.Completed then
+                -- Restart following waypoints if needed
+                currentWaypointIndex = 1
+                moveToNextWaypoint()
+            end
+        end)
+    end
+end
+
+-- Function to handle A-200's behavior
+local function handleBehavior()
+    -- Start by moving to the first waypoint from the current room
+    moveToNextWaypoint()
+
+    -- Continuously check if the player is hiding or dead
+    RunService.Heartbeat:Connect(function()
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            local humanoid = player.Character.Humanoid
+            if humanoid.Health <= 0 then
+                -- Player is dead, continue moving towards the first room
+                isChasingPlayer = false
+                currentWaypointIndex = 1
+                moveToNextWaypoint()
+            elseif not isPlayerHiding(player) then
+                -- Player is not hiding, chase the player
+                isChasingPlayer = true
+                createTween(player.Character.HumanoidRootPart.Position):Play()
+            else
+                -- Player is hiding, continue moving towards the first room
+                if isChasingPlayer then
+                    isChasingPlayer = false
+                    currentWaypointIndex = 1
+                    moveToNextWaypoint()
+                end
+            end
+        end
+    end)
+end
+
+-- Function to update waypoints dynamically based on the generated rooms
+local function updateWaypoints(newWaypoints)
+    waypoints = {}
+    for _, waypoint in ipairs(newWaypoints) do
+        table.insert(waypoints, {Position = waypoint})
+    end
+end
+
+-- Example waypoints (you should replace these with actual waypoints in your game)
+local exampleWaypoints = {
+    Vector3.new(10, 0, 10),
+    Vector3.new(20, 0, 20),
+    Vector3.new(30, 0, 30),
+    Vector3.new(40, 0, 40)
+}
+
+-- Initialize waypoints and start A-200 behavior
+updateWaypoints(exampleWaypoints)
+handleBehavior()
