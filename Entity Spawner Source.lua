@@ -22,14 +22,16 @@ Part.Transparency = 1
 local Sound = Instance.new("Sound")
 Sound.PlaybackSpeed = 2
 Sound.Volume = 5
+Sound.EmitterSize = 10
 Sound.Looped = true
-Sound.SoundId = "https://www.roblox.com/asset/?id=9126159606"
+Sound.SoundId = "rbxassetid://4903742660"
 Sound.Parent = Part
 local distort = Instance.new("DistortionSoundEffect")
 distort.Parent = Sound
 distort.Level = 0.75
 local pitch = Instance.new("PitchShiftSoundEffect")
-pitch.Octive = 0.5
+pitch.Octave = 0.5
+pitch.Parent = Sound
 Sound:Play()
 local Face = Instance.new("BillboardGui")
 Face.Size = UDim2.new(7,0,7,0)
