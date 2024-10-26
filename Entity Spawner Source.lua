@@ -1,5 +1,5 @@
 
-local Speed = 250
+local Speed = 200
 local Hitbox = 30
 
 
@@ -21,14 +21,14 @@ Part.CanCollide = false
 Part.Transparency = 1
 local Sound = Instance.new("Sound")
 Sound.PlaybackSpeed = 2
-Sound.Volume = 5
+Sound.Volume = 10
 Sound.EmitterSize = 10
 Sound.Looped = true
 Sound.SoundId = "rbxassetid://4903742660"
 Sound.Parent = Part
 local distort = Instance.new("DistortionSoundEffect")
 distort.Parent = Sound
-distort.Level = 0.75
+distort.Level = 0.85
 local pitch = Instance.new("PitchShiftSoundEffect")
 pitch.Octave = 0.5
 pitch.Parent = Sound
@@ -84,15 +84,15 @@ spawn(function()
    while true do
     Image.Image = "rbxassetid://192267375"
     wait(0.1)
-    Image.Parent.Image = "rbxassetid://1972219027"
+    Image.Image = "rbxassetid://1972219027"
     wait(0.1)
-    Image.Parent.Image = "rbxassetid://1822114127"
+    Image.Image = "rbxassetid://1822114127"
     wait(0.1)
-    Image.Parent.Image = "rbxassetid://14084270847"
+    Image.Image = "rbxassetid://14084270847"
     wait(0.1)
-    Image.Parent.Image = "rbxassetid://3413871766"
+    Image.Image = "rbxassetid://3413871766"
     wait(0.1)
-    Image.Parent.Image = "rbxassetid://17865063"
+    Image.Image = "rbxassetid://17865063"
     wait(0.1)
    end
 end)
@@ -111,4 +111,7 @@ while wait() do
    end
 break
 end
+TS:Create(Sound, TweenInfo.new(3),{PlaybackSpeed = 0}):Play()
+TS:Create(Part, TweenInfo.new(3),{CFrame = Part.CFrame * CFrame.new(0,-10,0)}):Play()
+wait(3)
 Part:Destroy()
