@@ -1,5 +1,5 @@
 
-local Speed = 200
+local Speed = 300
 local Hitbox = 30
 
 
